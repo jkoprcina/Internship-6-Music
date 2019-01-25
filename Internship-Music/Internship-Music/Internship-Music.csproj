@@ -6,4 +6,8 @@
     <RootNamespace>Internship_Music</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="1.50.5" />
+  </ItemGroup>
+
 </Project>
