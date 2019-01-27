@@ -6,13 +6,13 @@ using System.Text;
 
 namespace Internship_Music
 {
-    class Album
+    internal class Album
     {
-        [Key]
         public int AlbumId { get; set; }
         public string Name { get; set; }
         public DateTime YearOfRelease { get; set; }
         public int MusicianId { get; set; }
-        [ForeignKey("MusicianId")] public virtual Musician Musician { get; set; }
+        public List<Song> Songs { get; set; }
+        public Musician MusicianOnAlbum { get; set; }
     }
 }

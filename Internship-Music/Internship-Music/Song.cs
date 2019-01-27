@@ -5,11 +5,12 @@ using System.Text;
 
 namespace Internship_Music
 {
-    class Song
+    internal class Song
     {
-        [Key]
         public int SongId { get; set; }
         public string Name { get; set; }
-        public TimeSpan SongLength { get; set; }
+        public TimeSpan SongDuration { get; set; }
+        public List<Album> SongOnAlbums { get; set; }
+
     }
 }
