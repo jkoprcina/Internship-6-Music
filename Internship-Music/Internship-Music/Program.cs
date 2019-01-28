@@ -23,10 +23,8 @@ namespace Internship_Music
             var albumSongConnections = connection.Query<AlbumSong>("SELECT * FROM AlbumSong");
 
             var albumSong = from albumSongConnection in albumSongConnections
-                join album in albums
-                    on albumSongConnection.AlbumId equals album.AlbumId
-                join song in songs
-                    on albumSongConnection.SongId equals song.SongId
+                join album in albums on albumSongConnection.AlbumId equals album.AlbumId
+                join song in songs on albumSongConnection.SongId equals song.SongId
                 select new { album, song};
 
             foreach(var albSong in albumSong)
@@ -42,7 +40,7 @@ namespace Internship_Music
                 Console.WriteLine($"{song.Name} {song.SongDuration}");
 
             //Write out all musicians ordered by name ascending 
-            var orderByNameAscending = from musician in musicians orderby musician.Name select musician;
+            var orderByNameAscending = musicians.OrderBy(musician => musician.Name);
 
             Console.WriteLine("--- Musicians ordered by name ascending ---");
             foreach (var musician in orderByNameAscending)
@@ -51,10 +49,8 @@ namespace Internship_Music
             //Write out all musicians with a certain nationality hardcoded to "British"
             Console.WriteLine("Enter a nationality: ");
             var nationality = Console.ReadLine();
-            var musiciansOfCertainNationality = from musician in musicians where musician.Nationality == nationality select musician;
-
             Console.WriteLine("--- Musicians of a certain nationality ---");
-            foreach (var musician in musiciansOfCertainNationality)
+            foreach (var musician in musicians.Where(musician => musician.Nationality == nationality))
                 Console.WriteLine($"{musician.Name} {musician.Nationality}");
 
             //Write out all albums grouped by year of release ascending 
@@ -63,10 +59,8 @@ namespace Internship_Music
                 join musician in musicians on album.MusicianId equals musician.MusicianId
                 select new { album.Name, album.YearOfRelease, NameOfMusician = musician.Name };
 
-            var albumsByYear = from albMus in albumMusicians orderby albMus.YearOfRelease select albMus;
-
             Console.WriteLine("--- Albums by year of release ---");
-            foreach (var album in albumsByYear)
+            foreach (var album in albumMusicians.OrderBy(albMus => albMus.YearOfRelease))
                  Console.WriteLine($"{album.Name} {album.YearOfRelease.Year} {album.NameOfMusician}");
 
             //All albums which contain certain text ( which will be hardcoded in the code and not asked of the user)
@@ -74,45 +68,27 @@ namespace Internship_Music
             Console.WriteLine("--- Albums that include a hardcoded text ---");
             Console.WriteLine("Enter a text which should be in one of the albums: ");
             var text = Console.ReadLine();
-            var albumsWithCertainText = from album in albums where album.Name.Contains(text) select album;
-
-            foreach (var album in albumsWithCertainText)
+            foreach (var album in albums.Where(album => album.Name.Contains(text)))
                 Console.WriteLine($"{album.Name}");
 
             //All albums with their lengths ( lengths of all the songs on the album)
-
-            var albumLengths = from album in albums
-                join albSongConnection in albumSongConnections on album.AlbumId equals albSongConnection.AlbumId
-                join song in songs on albSongConnection.AlbumId equals song.SongId
-                select new {album.Name, song.SongDuration};
-
-            var albumSongDurations = from album in albumLengths
-                group album by album.Name;
-
             Console.WriteLine("--- Albums with their lengths ---");
-            foreach (var album in albumSongDurations)
+            foreach (var album in albumSong.GroupBy(album => album.album.Name))
             {
                 var albumLength = new TimeSpan(0,0,0);
                 foreach (var length in album)
-                    albumLength += length.SongDuration;
+                    albumLength += length.song.SongDuration;
                 Console.WriteLine($"{ album.Key} {albumLength}");
             }
 
             //All albums with a certain song  
             Console.WriteLine("Enter one of the songs in the database (Innuendo is the only song that's entered twice): ");
             var songWeAreLookingFor = Console.ReadLine();
-
-            var albumsWithSong = from album in albums
-                join albSongConnection in albumSongConnections on album.AlbumId equals albSongConnection.AlbumId
-                join song in songs on albSongConnection.AlbumId equals song.SongId
-                where song.Name == songWeAreLookingFor
-                group song by album;
-
-            Console.WriteLine("--- Albums that have a certain song ---");
-            foreach (var album in albumsWithSong)
+            
+            foreach (var album in albumSong)
             {
-                foreach(var song in album)
-                    Console.WriteLine($"{album.Key.Name} {song.Name}");
+                if(album.song.Name == songWeAreLookingFor)
+                    Console.WriteLine(album.album.Name);
             }
 
             //All songs by a certain musician that came out after a certain year
@@ -129,11 +105,10 @@ namespace Internship_Music
                 where album.YearOfRelease.Year > year && musician.Name == musicianWeAreLookingFor
                 select new {Musician = musician.Name, song.Name, album.YearOfRelease};
 
-            var musiciansGrouped = from song in songsAfterYearByMusician group song by song.Musician;
-            foreach (var musician in musiciansGrouped)
+            foreach (var musician in songsAfterYearByMusician.GroupBy(song => song.Musician))
             {
                 foreach(var song in musician)
-                    Console.WriteLine($"{musician.Key} {song.Name} {song.YearOfRelease.Year}");
+                    Console.WriteLine($"{song.Name} {song.YearOfRelease.Year}");
             }
         }
     }
