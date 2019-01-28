@@ -12,7 +12,5 @@ namespace Internship_Music
         public string Name { get; set; }
         public DateTime YearOfRelease { get; set; }
         public int MusicianId { get; set; }
-        public List<Song> Songs { get; set; }
-        public Musician MusicianOnAlbum { get; set; }
     }
 }

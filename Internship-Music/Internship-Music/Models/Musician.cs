@@ -11,7 +11,6 @@ namespace Internship_Music
         public int MusicianId { get; set; }
         public string Name { get; set; }
         public string Nationality { get; set; }
-        public List<Album> MusiciansAlbums { get; set; }
 
     }
 }

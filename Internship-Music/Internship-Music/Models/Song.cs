@@ -10,7 +10,6 @@ namespace Internship_Music
         public int SongId { get; set; }
         public string Name { get; set; }
         public TimeSpan SongDuration { get; set; }
-        public List<Album> SongOnAlbums { get; set; }
 
     }
 }

@@ -29,7 +29,7 @@ ADD MusicianId INT FOREIGN KEY REFERENCES Musician(MusicianId)
 INSERT INTO Musician
 (Name, Nationality)
 VALUES
-(N'Queen', N'British'), (N'Iron maiden',N'British'), (N'AC DC',N'Australian')
+(N'Queen', N'British'), (N'Iron Maiden',N'British'), (N'AC/DC',N'Australian')
 
 INSERT INTO Album
 (Name, YearOfRelease, MusicianId)
@@ -58,7 +58,8 @@ VALUES
 (N'Hells Bells', '00:05:12'), (N'Shoot to Thrill', '00:05:17'), (N'back in Black','00:04:15'),
 (N'You Shook Me All Night Long', '00:03:30'), (N'Shake a Leg', '00:04:05'),
 (N'Highway to Hell', '00:03:28'), (N'Girls Got Rythm', '00:03:24'), (N'Touch Too Mouch','00:04:26'),
-(N'If You Want Blood (You Got it)', '00:04:37'), (N'Night Prowler','00:06:16')
+(N'If You Want Blood (You Got it)', '00:04:37'), (N'Night Prowler','00:06:16'),
+(N'Innuendo', '00:06:38')
 
 INSERT INTO AlbumSong
 (AlbumId, SongId)
@@ -70,5 +71,6 @@ Values
 (5, 21),(5, 22),(5, 23),(5, 24),(5, 25),
 (6, 26),(6, 27),(6, 28),(6, 29),(6, 30),
 (7, 31),(7, 32),(7, 33),(7, 34),(7, 35),
-(8, 36),(8, 37),(8, 38),(8, 39),(8, 40)
+(8, 36),(8, 37),(8, 38),(8, 39),(8, 40),(3,41)
+
 
