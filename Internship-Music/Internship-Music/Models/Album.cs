@@ -12,6 +12,6 @@ namespace Internship_Music
         public string Name { get; set; }
         public DateTime YearOfRelease { get; set; }
         public int MusicianId { get; set; }
-        public List<Song> SongsOnAlbum = new List<Song>();
+        public List<Song> Songs = new List<Song>();
     }
 }
